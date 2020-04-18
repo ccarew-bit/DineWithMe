@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using DineWithMe.Models;
 using DineWithMe.ViewModels;
@@ -8,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DineWithMe.Controllers
 
@@ -52,7 +56,28 @@ namespace DineWithMe.Controllers
       _context.Users.Add(user);
       await _context.SaveChangesAsync();
 
-      return Ok(user);
+      var expirationTime = DateTime.UtcNow.AddHours(10);
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(new[]
+          {
+            new Claim("id", user.Id.ToString()),
+            new Claim("phonenumber", user.PhoneNumber),
+            new Claim("name", user.Name)
+          }),
+        Expires = expirationTime,
+        SigningCredentials = new SigningCredentials(
+              new SymmetricSecurityKey(Encoding.ASCII.GetBytes("The same long string")),
+              SecurityAlgorithms.HmacSha256Signature
+          )
+      };
+
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+
+
+      user.HashedPassword = null;
+      return Ok(new { Token = token, user = user });
     }
   }
 }

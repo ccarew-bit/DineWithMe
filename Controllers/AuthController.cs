@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DineWithMe.Models;
 using DineWithMe.ViewModels;
+using DineWithMe.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,32 @@ namespace DineWithMe.Controllers
     public AuthController(DatabaseContext context)
     {
       _context = context;
+    }
+
+    private string CreateJWT(User user)
+    {
+      var expirationTime = DateTime.UtcNow.AddHours(10);
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(new[]
+          {
+            new Claim("id", user.Id.ToString()),
+            new Claim("phonenumber", user.PhoneNumber),
+            new Claim("name", user.Name)
+          }),
+        Expires = expirationTime,
+        SigningCredentials = new SigningCredentials(
+              new SymmetricSecurityKey(Encoding.ASCII.GetBytes("The same long string")),
+              SecurityAlgorithms.HmacSha256Signature
+          )
+      };
+
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+
+
+      user.HashedPassword = null;
+      return token;
     }
 
     [HttpPost("signup")]
@@ -56,28 +83,29 @@ namespace DineWithMe.Controllers
       _context.Users.Add(user);
       await _context.SaveChangesAsync();
 
-      var expirationTime = DateTime.UtcNow.AddHours(10);
-      var tokenDescriptor = new SecurityTokenDescriptor
-      {
-        Subject = new ClaimsIdentity(new[]
-          {
-            new Claim("id", user.Id.ToString()),
-            new Claim("phonenumber", user.PhoneNumber),
-            new Claim("name", user.Name)
-          }),
-        Expires = expirationTime,
-        SigningCredentials = new SigningCredentials(
-              new SymmetricSecurityKey(Encoding.ASCII.GetBytes("The same long string")),
-              SecurityAlgorithms.HmacSha256Signature
-          )
-      };
-
-      var tokenHandler = new JwtSecurityTokenHandler();
-      var token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
-
-
       user.HashedPassword = null;
-      return Ok(new { Token = token, user = user });
+      return Ok(new { Token = CreateJWT(user), user = user });
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult> Login(UserLogin userLogin)
+    {
+      var user = await _context.Users.FirstOrDefaultAsync(user => user.PhoneNumber == userLogin.PhoneNumber);
+      if (user == null)
+      {
+        return BadRequest("User Does Not Exist");
+      }
+      var results = new PasswordHasher<User>().VerifyHashedPassword(user, user.HashedPassword, userLogin.Password);
+      if (results == PasswordVerificationResult.Success)
+      {
+        user.HashedPassword = null;
+        return Ok(new { Token = CreateJWT(user), user = user });
+      }
+      else
+      {
+        return BadRequest("Incorrect Password");
+      }
+
     }
   }
 }

@@ -50,7 +50,7 @@ namespace DineWithMe
           ValidateLifetime = true,
           ValidateIssuerSigningKey = false,
 
-          IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("Long STring"))
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JWT_key"]))
         };
       });
     }

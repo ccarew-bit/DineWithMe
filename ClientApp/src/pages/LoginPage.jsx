@@ -1,21 +1,42 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-const LoginPage = () => {
-  const [Name, setName] = useState('')
-  const [PhoneNumber, setPhoneNumber] = useState('')
-  const [Password, setPassword] = useState('')
+
+export function LoginPage() {
+  const [LoginPhoneNumber, setLoginPhoneNumber] = useState('')
+  const [LoginPassword, setLoginPassword] = useState('')
+
+  const logUserIntoApi = async () => {
+    const resp = await axios.post('/auth/login', {
+      PhoneNumber: LoginPhoneNumber,
+      Password: LoginPassword,
+    })
+    console.log(resp.data)
+  }
+
   return (
     <body className="LoginPageBackground">
       <section className="LoginPage">
         <header>Dine With Me</header>
         <section className="LoginInput">
-          <input placeholder="Phone Number"></input>
-          <input placeholder="Password"></input>
+          <input
+            placeholder="Phone Number"
+            type="text"
+            value={LoginPhoneNumber}
+            on
+            onChange={e => setLoginPhoneNumber(e.target.value)}
+          ></input>
+          <input
+            placeholder="Password"
+            type="text"
+            value={LoginPassword}
+            on
+            onChange={e => setLoginPassword(e.target.value)}
+          ></input>
 
-          <Link className="LoginLink" to="/UserHome">
+          <button className="LoginLink" to="/UserHome" onClick={logUserIntoApi}>
             Login
-          </Link>
+          </button>
           <Link className="LoginLink" to="/SignUp">
             SignUp
           </Link>

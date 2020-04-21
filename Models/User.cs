@@ -1,5 +1,7 @@
 
 
+using System.Text.Json.Serialization;
+
 namespace DineWithMe.Models
 {
   public class User
@@ -8,7 +10,7 @@ namespace DineWithMe.Models
     public string Name { get; set; }
 
     public string PhoneNumber { get; set; }
-
+    [JsonIgnore]
     public string HashedPassword { get; set; }
   }
 }

@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 const UserHomePage = () => {
+  const loadProfile = async () => {
+    const resp = await axios.get('api/profile', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    console.log(resp.data)
+  }
+  useEffect(() => {
+    loadProfile()
+  }, [])
+
   return (
     <body>
       <header>Welcome (user)!</header>

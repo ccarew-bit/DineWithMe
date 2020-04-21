@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 
 namespace DineWithMe.Controllers
 
@@ -23,12 +24,13 @@ namespace DineWithMe.Controllers
   public class AuthController : ControllerBase
 
   {
-    private DatabaseContext _context;
-
+    readonly private DatabaseContext _context;
+    readonly private string JWT_key;
 
     // Dependency Injection
-    public AuthController(DatabaseContext context)
+    public AuthController(DatabaseContext context, IConfiguration config)
     {
+      JWT_key = config["JWT_key"];
       _context = context;
     }
 
@@ -45,7 +47,7 @@ namespace DineWithMe.Controllers
           }),
         Expires = expirationTime,
         SigningCredentials = new SigningCredentials(
-              new SymmetricSecurityKey(Encoding.ASCII.GetBytes("The same long string")),
+              new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JWT_key)),
               SecurityAlgorithms.HmacSha256Signature
           )
       };
@@ -83,7 +85,6 @@ namespace DineWithMe.Controllers
       _context.Users.Add(user);
       await _context.SaveChangesAsync();
 
-      user.HashedPassword = null;
       return Ok(new { Token = CreateJWT(user), user = user });
     }
 
@@ -98,7 +99,6 @@ namespace DineWithMe.Controllers
       var results = new PasswordHasher<User>().VerifyHashedPassword(user, user.HashedPassword, userLogin.Password);
       if (results == PasswordVerificationResult.Success)
       {
-        user.HashedPassword = null;
         return Ok(new { Token = CreateJWT(user), user = user });
       }
       else

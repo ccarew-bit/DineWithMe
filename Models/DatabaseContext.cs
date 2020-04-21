@@ -9,7 +9,11 @@ namespace DineWithMe.Models
   {
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Request> Requests { get; set; }
 
+    public DbSet<Restaurant> Restaurants { get; set; }
+
+    public DbSet<Agreement> Agreements { get; set; }
 
     private string ConvertPostConnectionToConnectionString(string connection)
     {

@@ -83,9 +83,10 @@ namespace DineWithMe
       });
 
 
+
+      app.UseRouting();
       app.UseAuthorization();
       app.UseAuthentication();
-      app.UseRouting();
 
       app.UseEndpoints(endpoints =>
       {

@@ -9,7 +9,7 @@ using DineWithMe.Models;
 
 namespace DineWithMe.Controllers
 {
-  [Route("Request")]
+  [Route("api/[controller]")]
   [ApiController]
   public class RequestController : ControllerBase
   {
@@ -77,12 +77,20 @@ namespace DineWithMe.Controllers
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see https://aka.ms/RazorPagesCRUD.
     [HttpPost]
-    public async Task<ActionResult<Request>> PostRequest(Request request)
+    public async Task<ActionResult> PostRequest(Request request)
     {
+      //get current user id
+      var userId = int.Parse(User.Claims.FirstOrDefault(f => f.Type == "id").Value);
+      //get friend id
+      var friendId = (await _context.Users.FirstOrDefaultAsync(f => f.Name == request.Friend.Name)).Id;
+      request.RequestorId = userId;
+      request.FriendId = friendId;
+      //pass token
+      request.Friend = null;
       _context.Requests.Add(request);
       await _context.SaveChangesAsync();
-
-      return CreatedAtAction("GetRequest", new { id = request.Id }, request);
+      return Ok(new { request, friendId, userId });
+      //return CreatedAtAction("GetRequest", new { id = request.Id }, request);
     }
 
     // DELETE: api/Request/5

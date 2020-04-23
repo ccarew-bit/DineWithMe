@@ -50,6 +50,8 @@ namespace DineWithMe.Controllers
       var outgoingRequests = await _context.Requests.Where(request => request.RequestorId == userId).Include(request => request.Friend).ToListAsync();
       return Ok(outgoingRequests);
     }
+
+    
   }
 }
 

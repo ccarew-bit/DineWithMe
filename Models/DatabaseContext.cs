@@ -15,6 +15,30 @@ namespace DineWithMe.Models
 
     public DbSet<Agreement> Agreements { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+      base.OnModelCreating(builder);
+      builder.Entity<Restaurant>().HasData(
+          new Restaurant
+          {
+            Id = 1,
+            Name = "Ceviche tapas St.Pete",
+            Type = "Spanish",
+            Reviews = "GREAT",
+            Hours = "9am-5pm",
+            Expenses = "$$"
+          },
+          new Restaurant
+          {
+            Id = 2,
+            Name = "Ceviche 2 tapas St.Pete",
+            Type = "Spanish",
+            Reviews = "GREAT",
+            Hours = "9am-5pm",
+            Expenses = "$$"
+          }
+        );
+    }
     private string ConvertPostConnectionToConnectionString(string connection)
     {
       var _connection = connection.Replace("postgres://", String.Empty);

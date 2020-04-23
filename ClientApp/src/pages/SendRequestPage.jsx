@@ -44,22 +44,13 @@ const SendRequestPage = () => {
       ></input>
       <input
         name="Description"
-        placeholder="Description"
+        type="text"
+        placeholder="description"
         onChange={updateRequestData}
       ></input>
       <button onClick={sendRequestToApi}>Send Request!</button>
       <Link to="/UserHome">Go Home</Link>
     </body>
-    //    <ul className="request-list">
-    //    {request.map(NewRequest => {
-    //      return (
-    //        <li>
-    //          <p className="review">{request.Friend}</p>
-    //          <p className="review-rating">{request.Time}/5</p>
-    //        </li>
-    //      )
-    //    })}
-    //  </ul>
   )
 }
 

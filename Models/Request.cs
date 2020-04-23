@@ -17,6 +17,7 @@ namespace DineWithMe.Models
 
     public DateTime Time { get; set; }
 
+    public bool IsRequestAccepted { get; set; } = false;
 
   }
 }

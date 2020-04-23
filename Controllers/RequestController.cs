@@ -93,6 +93,41 @@ namespace DineWithMe.Controllers
       //return CreatedAtAction("GetRequest", new { id = request.Id }, request);
     }
 
+    [HttpPost("{id}/Accepted")]
+
+    public async Task<ActionResult> AcceptRequest(int id)
+    {
+      var request = await _context.Requests.FindAsync(id);
+      if (request == null)
+      {
+        return NotFound();
+      }
+
+      request.IsRequestAccepted = true;
+
+      _context.Entry(request).State = EntityState.Modified;
+
+      try
+      {
+        await _context.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!RequestExists(id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+
+      return Ok();
+    }
+
+
+
     // DELETE: api/Request/5
     [HttpDelete("{id}")]
     public async Task<ActionResult<Request>> DeleteRequest(int id)

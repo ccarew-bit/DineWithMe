@@ -7,6 +7,7 @@ const UserHomePage = () => {
   const [incomingRequests, setIncomingRequests] = useState([])
   const [outgoingRequests, setOutgoingRequests] = useState([])
   const [acceptedRequest, setAcceptedRequest] = useState([])
+  const [friendAcceptedRequest, setFriendAcceptedRequest] = useState([])
   const [shouldRedirect, setshouldRedirect] = useState(false)
   const loadProfile = async () => {
     const resp = await axios.get('/api/profile', {
@@ -50,6 +51,21 @@ const UserHomePage = () => {
   }, [])
   console.log(incomingRequests)
 
+  //////////////Accepted request
+  const friendHasAcceptedRequest = async () => {
+    const resp = await axios.get('/api/profile/AcceptedRequests', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    console.log(resp.data)
+    setFriendAcceptedRequest(resp.data)
+  }
+  useEffect(() => {
+    friendHasAcceptedRequest()
+  }, [])
+  console.log(incomingRequests)
+
   ////////////////accept request
 
   const AcceptRequest = e => {
@@ -83,31 +99,54 @@ const UserHomePage = () => {
 
   //////////////////////////
   return (
-    <body>
-      <header>Welcome {profile.name} !</header>
-      <Link to="/SendRequest">Would you like to make a dine request?</Link>
-      <section className="AcceptedRequest">
-        <h2>Outgoing request</h2>
-        {outgoingRequests.map(request => {
-          return <li>you have asked {request.friend.name} to dine with you!</li>
-        })}
-      </section>
-      <section className="DeclinedRequest">
-        <h2>Incoming Request</h2>
-        <ul>
-          {incomingRequests.map(request => {
-            return (
-              <li>
-                {request.requestor.name} has requested to dine with you!
-                <button onClick={AcceptRequest}>Accept</button>
-                <button>deny</button>{' '}
-                <button onClick={() => sendAcceptedRequestToApi(request.id)}>
-                  Continue
-                </button>
-              </li>
-            )
+    <body className="UserHomeBackground">
+      <section className="UserHomePage">
+        <header>Welcome {profile.name} !</header>
+        <Link to="/SendRequest" className="LinktoRequestPage">
+          Would you like to make a dine request?
+        </Link>
+        <section className="PandIRequest">
+          <section className="PendingRequest">
+            <h2>Pending request</h2>
+            {outgoingRequests.map(request => {
+              return (
+                <li>you have asked {request.friend.name} to dine with you!</li>
+              )
+            })}
+          </section>
+          <section className="IncomingRequest">
+            <h2>Incoming Request</h2>
+            <ul>
+              {incomingRequests.map(request => {
+                return (
+                  <li>
+                    {request.requestor.name} has requested to dine with you!
+                    <button onClick={AcceptRequest}>Accept</button>
+                    <button>deny</button>{' '}
+                    <button
+                      onClick={() => sendAcceptedRequestToApi(request.id)}
+                    >
+                      Continue
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        </section>
+        <section className="AcceptedRequest">
+          <h1>Accepted</h1>
+          {friendAcceptedRequest.map(request => {
+            if (request.IsRequestAccepted == true) {
+              return (
+                <li>
+                  {request.friend.name} has accepted your dine request!
+                  <button>Lets Get started</button>
+                </li>
+              )
+            }
           })}
-        </ul>
+        </section>
       </section>
     </body>
   )

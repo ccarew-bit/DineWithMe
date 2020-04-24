@@ -8,7 +8,7 @@ namespace DineWithMe.Models
 
     public User Requestor { get; set; }
 
-    public int UserId { get; set; }
+    public int FriendId { get; set; }
 
     public User Friend { get; set; }
     public int RestaurantId { get; set; }

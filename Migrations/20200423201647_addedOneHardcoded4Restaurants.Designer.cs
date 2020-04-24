@@ -3,15 +3,17 @@ using System;
 using DineWithMe.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DineWithMe.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200423201647_addedOneHardcoded4Restaurants")]
+    partial class addedOneHardcoded4Restaurants
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,22 +28,22 @@ namespace DineWithMe.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("FriendId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("RequestorId")
                         .HasColumnType("integer");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("FriendId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RequestorId");
 
                     b.HasIndex("RestaurantId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Agreements");
                 });
@@ -174,12 +176,6 @@ namespace DineWithMe.Migrations
 
             modelBuilder.Entity("DineWithMe.Models.Agreement", b =>
                 {
-                    b.HasOne("DineWithMe.Models.User", "Friend")
-                        .WithMany()
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DineWithMe.Models.User", "Requestor")
                         .WithMany()
                         .HasForeignKey("RequestorId")
@@ -189,6 +185,12 @@ namespace DineWithMe.Migrations
                     b.HasOne("DineWithMe.Models.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DineWithMe.Models.User", "Friend")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

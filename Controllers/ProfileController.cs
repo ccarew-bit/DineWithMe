@@ -49,9 +49,19 @@ namespace DineWithMe.Controllers
 
       var outgoingRequests = await _context.Requests.Where(request => request.RequestorId == userId).Include(request => request.Friend).ToListAsync();
       return Ok(outgoingRequests);
+
     }
 
-    
+    [HttpGet("AcceptedRequests")]
+    public async Task<ActionResult> GetAcceptedRequest()
+    {
+      var userId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
+
+      var acceptedRequests = await _context.Requests.Where(request => request.RequestorId == userId).Include(request => request.Friend).ToListAsync();
+      // if (IsRequestAccepted == true)
+      return Ok(acceptedRequests);
+    }
+
   }
 }
 

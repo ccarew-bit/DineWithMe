@@ -5,6 +5,33 @@ import PlaceHolder from '../components/Images/placeholder.jpg'
 // import Restaurant from './Restaurant'
 
 const FoodYorN = props => {
+  const [newAgreement, setNewAgreement] = useState({})
+  const updateAgreementData = e => {
+    const key = e.target.name
+    const value = e.target.value
+    setNewAgreement(prevRequest => {
+      prevRequest[key] = value
+      return { ...prevRequest }
+    })
+  }
+
+  const sendAgreementToApi = async () => {
+    console.log('adding', newAgreement)
+    const resp = await axios.post(
+      `/api/Agreement`,
+      // { ...newAgreement, friend: { name: newAgreement.friend } },
+      {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+      }
+    )
+    if (resp.status == 201) {
+    } else {
+    }
+  }
+
+  //////////////// being able to click through retaurants
   console.log(props)
   const restaurantId = props.match.params.restaurantId
 
@@ -24,8 +51,14 @@ const FoodYorN = props => {
   const YesButton = event => {
     setCurrentRestaurantIndex(currentRestaurantIndex + 1)
   }
+  const NoButton = event => {
+    setCurrentRestaurantIndex(currentRestaurantIndex + 1)
+  }
   if (restaurants) {
     const restaurant = restaurants[currentRestaurantIndex]
+    if (restaurant == null) {
+      return <h1>No restaurants found</h1>
+    }
     return (
       <body className="FoodYorNBackground">
         <section className="FoodYorN">
@@ -34,10 +67,14 @@ const FoodYorN = props => {
           <img src={PlaceHolder} />
           <ul className="YorNUl">
             <li>
-              <button onClick={YesButton}>Yes</button>
+              <button
+                onClick={(YesButton, updateAgreementData, sendAgreementToApi)}
+              >
+                Yes
+              </button>
             </li>
             <li>
-              <button>No</button>
+              <button onClick={NoButton}>No</button>
             </li>
           </ul>
           <Link to="/Agreement" className="YorNLink">

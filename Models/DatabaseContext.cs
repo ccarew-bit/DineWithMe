@@ -31,12 +31,43 @@ namespace DineWithMe.Models
           new Restaurant
           {
             Id = 2,
-            Name = "Ceviche 2 tapas St.Pete",
+            Name = "Red Mesa",
+            Type = "Mexican",
+            Reviews = "GREAT",
+            Hours = "9am-5pm",
+            Expenses = "$$"
+          },
+
+          new Restaurant
+          {
+            Id = 3,
+            Name = "Parkshore Grill",
+            Type = "American",
+            Reviews = "GREAT",
+            Hours = "9am-5pm",
+            Expenses = "$$"
+          },
+
+          new Restaurant
+          {
+            Id = 4,
+            Name = "Harvey's 4th Street Grill",
             Type = "Spanish",
             Reviews = "GREAT",
             Hours = "9am-5pm",
             Expenses = "$$"
+          },
+
+          new Restaurant
+          {
+            Id = 5,
+            Name = "BellaBrava",
+            Type = "Pizza",
+            Reviews = "GREAT",
+            Hours = "9am-5pm",
+            Expenses = "$$"
           }
+
         );
     }
     private string ConvertPostConnectionToConnectionString(string connection)

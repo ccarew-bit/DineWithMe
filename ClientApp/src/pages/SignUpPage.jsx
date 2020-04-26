@@ -20,32 +20,36 @@ const SignUpPage = () => {
     }
   }
   if (shouldRedirect) {
-    return <Redirect to="/UserHome" />
+    return <Redirect to="/LoginPage" />
   }
 
   return (
-    <body>
-      <header>Dine With Me</header>
-      <input
-        type="text"
-        placeholder="Name"
-        value={Name}
-        onChange={e => setName(e.target.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="Phone Number"
-        value={PhoneNumber}
-        onChange={e => setPhoneNumber(e.target.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="Password"
-        value={Password}
-        onChange={e => setPassword(e.target.value)}
-      ></input>
-      <button onClick={sendNewUserToAPI}>Sign Me Up!</button>
-      <Link to="/">Let's Login!</Link>
+    <body className="signUpBackground">
+      <section className="signUpPage">
+        <header>Dine With Me</header>
+        <section className="SignUpInput">
+          <input
+            type="text"
+            placeholder="Name"
+            value={Name}
+            onChange={e => setName(e.target.value)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Phone Number"
+            value={PhoneNumber}
+            onChange={e => setPhoneNumber(e.target.value)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Password"
+            value={Password}
+            onChange={e => setPassword(e.target.value)}
+          ></input>
+          <button onClick={sendNewUserToAPI}>Sign Me Up!</button>
+          <Link to="/">Let's Login!</Link>
+        </section>
+      </section>
     </body>
   )
 }

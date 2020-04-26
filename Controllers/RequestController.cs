@@ -126,6 +126,38 @@ namespace DineWithMe.Controllers
       return Ok();
     }
 
+    [HttpPost("{id}/Denied")]
+
+    public async Task<ActionResult> DeniedRequest(int id)
+    {
+      var request = await _context.Requests.FindAsync(id);
+      if (request == null)
+      {
+        return NotFound();
+      }
+
+      request.IsRequestDenied = true;
+
+      _context.Entry(request).State = EntityState.Modified;
+
+      try
+      {
+        await _context.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!RequestExists(id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+
+      return Ok();
+    }
 
 
     // DELETE: api/Request/5

@@ -24,7 +24,7 @@ export default class App extends Component {
           <Route exact path="/Home" component={Home} />
           <Route exact path="/TypeFood" component={TypeFood} />
           <Route exact path="/NextTime" component={NextTime} />
-          <Route exact path="/FoodYorN" component={FoodYorN} />
+          <Route exact path="/FoodYorN/:requestId" component={FoodYorN} />
           <Route exact path="/Agreement" component={Agreement} />
           <Route exact path="/Confirmation" component={Confirmation} />\
           <Route exact path="/" component={Login} />

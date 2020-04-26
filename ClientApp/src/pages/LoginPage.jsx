@@ -11,9 +11,10 @@ export function LoginPage() {
       PhoneNumber: LoginPhoneNumber,
       Password: LoginPassword,
     })
-    console.log(resp.data)
     if (resp.status == 200) {
-      localStorage.setItem('token', resp.data.token)
+      const token = resp.data.token
+      console.log({ token })
+      localStorage.setItem('token', token)
       setshouldRedirect(true)
     }
   }
@@ -41,9 +42,7 @@ export function LoginPage() {
             onChange={e => setLoginPassword(e.target.value)}
           ></input>
 
-          <button className="LoginLink" onClick={logUserIntoApi}>
-            Login
-          </button>
+          <button onClick={logUserIntoApi}>Login</button>
           <Link className="LoginLink" to="/SignUp">
             SignUp
           </Link>

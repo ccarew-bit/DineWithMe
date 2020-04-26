@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 const SendRequestPage = () => {
   const [NewRequest, setNewRequest] = useState({})
+  const [shouldRedirect, setshouldRedirect] = useState(false)
   const updateRequestData = e => {
     const key = e.target.name
     const value = e.target.value
@@ -24,10 +26,14 @@ const SendRequestPage = () => {
         },
       }
     )
-    if (resp.status == 201) {
-    } else {
+    if (resp.status == 200) {
+      setshouldRedirect(true)
     }
   }
+  if (shouldRedirect) {
+    return <Redirect to="/UserHome" />
+  }
+
   return (
     <body>
       <header>Who would you like to dine with?</header>

@@ -38,7 +38,8 @@ namespace DineWithMe.Controllers
     {
       var userId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
 
-      var incomingRequests = await _context.Requests.Where(request => request.FriendId == userId).Include(request => request.Requestor).ToListAsync();
+      var incomingRequests = await _context.Requests.Where(request => request.FriendId == userId && request.IsRequestAccepted == false && request.IsRequestDenied == false).Include(request => request.Requestor).ToListAsync();
+
       return Ok(incomingRequests);
     }
 
@@ -47,7 +48,7 @@ namespace DineWithMe.Controllers
     {
       var userId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
 
-      var outgoingRequests = await _context.Requests.Where(request => request.RequestorId == userId).Include(request => request.Friend).ToListAsync();
+      var outgoingRequests = await _context.Requests.Where(request => request.RequestorId == userId && request.IsRequestAccepted == false).Include(request => request.Friend).ToListAsync();
       return Ok(outgoingRequests);
 
     }
@@ -57,11 +58,21 @@ namespace DineWithMe.Controllers
     {
       var userId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
 
-      var acceptedRequests = await _context.Requests.Where(request => request.RequestorId == userId).Include(request => request.Friend).ToListAsync();
+      var acceptedRequests = await _context.Requests.Where(request => request.RequestorId == userId && request.IsRequestAccepted == true).Include(request => request.Friend).ToListAsync();
       // if (IsRequestAccepted == true)
       return Ok(acceptedRequests);
     }
 
+
+    [HttpGet("DeniedRequests")]
+    public async Task<ActionResult> GetDeniedRequest()
+    {
+      var userId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
+
+      var deniedRequests = await _context.Requests.Where(request => request.RequestorId == userId && request.IsRequestDenied == true).Include(request => request.Friend).ToListAsync();
+      // if (IsRequestAccepted == true)
+      return Ok(deniedRequests);
+    }
   }
 }
 

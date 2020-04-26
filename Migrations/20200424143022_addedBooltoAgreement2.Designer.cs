@@ -3,15 +3,17 @@ using System;
 using DineWithMe.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DineWithMe.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200424143022_addedBooltoAgreement2")]
+    partial class addedBooltoAgreement2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,31 +28,21 @@ namespace DineWithMe.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool>("FriendApproved")
+                    b.Property<bool>("Friend")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("FriendId")
-                        .HasColumnType("integer");
 
                     b.Property<int>("RequestId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("RequestorApproved")
+                    b.Property<bool>("Requestor")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("RequestorId")
-                        .HasColumnType("integer");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FriendId");
-
                     b.HasIndex("RequestId");
-
-                    b.HasIndex("RequestorId");
 
                     b.HasIndex("RestaurantId");
 
@@ -71,9 +63,6 @@ namespace DineWithMe.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsRequestAccepted")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsRequestDenied")
                         .HasColumnType("boolean");
 
                     b.Property<int>("RequestorId")
@@ -188,19 +177,11 @@ namespace DineWithMe.Migrations
 
             modelBuilder.Entity("DineWithMe.Models.Agreement", b =>
                 {
-                    b.HasOne("DineWithMe.Models.User", "Friend")
-                        .WithMany()
-                        .HasForeignKey("FriendId");
-
                     b.HasOne("DineWithMe.Models.Request", "Request")
                         .WithMany()
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DineWithMe.Models.User", "Requestor")
-                        .WithMany()
-                        .HasForeignKey("RequestorId");
 
                     b.HasOne("DineWithMe.Models.Restaurant", "Restaurant")
                         .WithMany()

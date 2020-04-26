@@ -19,5 +19,7 @@ namespace DineWithMe.Models
 
     public bool IsRequestAccepted { get; set; } = false;
 
+    public bool IsRequestDenied { get; set; } = false;
+
   }
 }

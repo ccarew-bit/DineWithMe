@@ -115,6 +115,11 @@ namespace DineWithMe.Controllers
         existingAgreement.FriendApproved = true;
       }
 
+      if (existingAgreement.RequestorApproved == true && existingAgreement.FriendApproved == true)
+      {
+        existingAgreement.IsAgreementMade = true;
+      }
+
 
 
       await _context.SaveChangesAsync();
@@ -129,7 +134,7 @@ namespace DineWithMe.Controllers
 
       // get teh current user
       var userId = int.Parse(User.Claims.FirstOrDefault(f => f.Type == "id").Value);
-      var agreements = _context.Agreements.Include(i => i.Restaurant).Include(i => i.Requestor).Include(i => i.Friend).Where(w => w.FriendApproved == true && w.RequestorApproved == true && (w.FriendId == userId || w.RequestorId == userId));
+      var agreements = _context.Agreements.Include(i => i.Restaurant).Include(i => i.Requestor).Include(i => i.Friend).Where(w => w.FriendApproved == true && w.RequestorApproved == true && (w.FriendId == userId || w.RequestorId == userId) && w.IsAgreementMade == true);
       return Ok(agreements);
     }
     //   // Get their requests where they are the friend

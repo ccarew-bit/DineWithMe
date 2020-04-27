@@ -46,12 +46,15 @@ const SignUpPage = () => {
             value={Password}
             onChange={e => setPassword(e.target.value)}
           ></input>
+        </section>
+        <section className="SignUpClick">
           <button onClick={sendNewUserToAPI}>Sign Me Up!</button>
-          <Link to="/">Let's Login!</Link>
+          <Link to="/" className="SignUpLink">
+            Let's Login!
+          </Link>
         </section>
       </section>
     </body>
   )
 }
-
 export default SignUpPage

@@ -23,5 +23,7 @@ namespace DineWithMe.Models
 
     public Restaurant Restaurant { get; set; }
 
+    public bool IsAgreementMade { get; set; } = false;
+
   }
 }

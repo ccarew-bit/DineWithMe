@@ -123,6 +123,7 @@ const UserHomePage = () => {
       setRequestIdToRedirectTo(id)
     }
   }
+
   if (requestIdToRedirectTo) {
     return <Redirect to={`/FoodYorN/${requestIdToRedirectTo}`} />
   }
@@ -163,7 +164,8 @@ const UserHomePage = () => {
               //if (request.IsRequestAccepted == true) {
               return (
                 <li>
-                  {request.friend.name} has accepted your dine request!
+                  {request.friend.name} has accepted your dine request!{' '}
+                  <br></br>
                   <Link to={`/FoodYorN/${request.id}`}>Lets Get started</Link>
                 </li>
               )
@@ -176,34 +178,32 @@ const UserHomePage = () => {
             <ul>
               {incomingRequests.map(request => {
                 return (
-                  <li>
-                    {request.requestor.name} has requested to dine with you!
-                    <button onClick={AcceptRequest}>Accept</button>
-                    <button onClick={DenieRequest}>deny</button>{' '}
+                  <section>
+                    <li>
+                      {request.requestor.name} has requested to dine with you!
+                      <br></br>
+                      {/* <button <button onClick = {() =>
+{AcceptRequest}
+{sendAcceptedRequestToApi}
+                      }/</li>>Accept</button> */}
+                      <button onClick={AcceptRequest}>Accept</button>
+                      <button onClick={DenieRequest}>deny</button>{' '}
+                    </li>
                     <button
-                      onClick={
-                        (() => sendAcceptedRequestToApi(request.id),
-                        () => sendDeniedRequestToApi(request.id))
-                      }
-                      //////changed
+                      onClick={() => sendAcceptedRequestToApi(request.id)}
                     >
-                      Continue
+                      Accept Request
                     </button>
-                  </li>
+                    <button onClick={() => sendDeniedRequestToApi(request.id)}>
+                      Deny Request
+                    </button>
+                  </section>
                 )
               })}
             </ul>
           </section>
         </section>
-        <section className="PendingRequest">
-          <h2>Pending request</h2>
-          {outgoingRequests.map(request => {
-            return (
-              <li>you have asked {request.friend.name} to dine with you!</li>
-            )
-          })}
-        </section>
-        <section>
+        <section className="Agreed">
           <h1>You have agreed to these restaurants</h1>
           {agreements.map(agreement => {
             if (agreement.friend.id == agreement.userId) {
@@ -224,14 +224,28 @@ const UserHomePage = () => {
             }
           })}
         </section>
-        <section>
-          <h1>Denied</h1>
-          {friendDeniedRequest.map(request => {
-            //if (request.IsRequestAccepted == true) {
-            return <li>{request.friend.name} has Denied your dine request!</li>
-            //}
-          })}
+        <section className="PendingAndDenied">
+          <section className="PendingRequest">
+            <h2>Pending request</h2>
+            {outgoingRequests.map(request => {
+              return (
+                <li>you have asked {request.friend.name} to dine with you!</li>
+              )
+            })}
+          </section>
+
+          <section className="Denied">
+            <h1>Denied</h1>
+            {friendDeniedRequest.map(request => {
+              //if (request.IsRequestAccepted == true) {
+              return (
+                <li>{request.friend.name} has Denied your dine request!</li>
+              )
+              //}
+            })}
+          </section>
         </section>
+        <Link to="/">SignOut</Link>
       </section>
     </body>
   )

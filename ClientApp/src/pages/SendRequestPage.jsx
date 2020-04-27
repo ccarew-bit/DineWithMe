@@ -35,27 +35,35 @@ const SendRequestPage = () => {
   }
 
   return (
-    <body>
-      <header>Who would you like to dine with?</header>
-      <input
-        name="friend"
-        placeholder="friend"
-        onChange={updateRequestData}
-      ></input>
-      <input
-        name="Time"
-        type="datetime-local"
-        placeholder="when?"
-        onChange={updateRequestData}
-      ></input>
-      <input
-        name="Description"
-        type="text"
-        placeholder="description"
-        onChange={updateRequestData}
-      ></input>
-      <button onClick={sendRequestToApi}>Send Request!</button>
-      <Link to="/UserHome">Go Home</Link>
+    <body className="SendRequestBackgound">
+      <section className="SendRequestPage">
+        <header>Who would you like to dine with?</header>
+        <section className="SendRequestInput">
+          <input
+            name="friend"
+            placeholder="friend"
+            onChange={updateRequestData}
+          ></input>
+          <input
+            name="Time"
+            type="datetime-local"
+            placeholder="when?"
+            onChange={updateRequestData}
+          ></input>
+          <input
+            name="Description"
+            type="text"
+            placeholder="description"
+            onChange={updateRequestData}
+          ></input>
+        </section>
+        <section className="SendRequestClick">
+          <button onClick={sendRequestToApi}>Send Request!</button>
+          <Link to="/UserHome" className="SendRequestLink">
+            Go Home
+          </Link>
+        </section>
+      </section>
     </body>
   )
 }

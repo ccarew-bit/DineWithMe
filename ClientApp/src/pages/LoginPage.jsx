@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
+// import '../Styles/User-Login.scss'
 export function LoginPage() {
   const [LoginPhoneNumber, setLoginPhoneNumber] = useState('')
   const [LoginPassword, setLoginPassword] = useState('')
@@ -41,7 +42,8 @@ export function LoginPage() {
             on
             onChange={e => setLoginPassword(e.target.value)}
           ></input>
-
+        </section>
+        <section className="LoginClick">
           <button onClick={logUserIntoApi}>Login</button>
           <Link className="LoginLink" to="/SignUp">
             SignUp

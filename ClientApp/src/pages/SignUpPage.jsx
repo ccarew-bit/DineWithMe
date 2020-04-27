@@ -20,7 +20,7 @@ const SignUpPage = () => {
     }
   }
   if (shouldRedirect) {
-    return <Redirect to="/LoginPage" />
+    return <Redirect to="/" />
   }
 
   return (

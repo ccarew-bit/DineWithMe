@@ -8,7 +8,7 @@ const UserHomePage = () => {
   const [outgoingRequests, setOutgoingRequests] = useState([])
   const [acceptedRequest, setAcceptedRequest] = useState([])
   const [deniedRequest, setDeniedRequest] = useState([])
-  const [friendAcceptedRequest, setFriendAcceptedRequest] = useState([])
+  const [friendAcceptedRequests, setFriendAcceptedRequests] = useState([])
   const [friendDeniedRequest, setFriendDeniedRequest] = useState([])
   const [agreements, setAgreement] = useState([])
   const [requestIdToRedirectTo, setRequestIdToRedirectTo] = useState(0)
@@ -62,7 +62,7 @@ const UserHomePage = () => {
       },
     })
     console.log(resp.data)
-    setFriendAcceptedRequest(resp.data)
+    setFriendAcceptedRequests(resp.data)
   }
   useEffect(() => {
     friendHasAcceptedRequest()
@@ -109,7 +109,6 @@ const UserHomePage = () => {
   }
 
   const sendAcceptedRequestToApi = async id => {
-    console.log('adding', acceptedRequest)
     const resp = await axios.post(
       `/api/Request/${id}/Accepted`,
       { ...acceptedRequest, requestor: { name: acceptedRequest.requestor } },
@@ -160,17 +159,23 @@ const UserHomePage = () => {
         <section className="PandIRequest">
           <section className="AcceptedRequest">
             <h1>Accepted</h1>
-            {friendAcceptedRequest.map(request => {
-              //if (request.IsRequestAccepted == true) {
-              return (
-                <li>
-                  {request.friend.name} has accepted your dine request!{' '}
-                  <br></br>
-                  <Link to={`/FoodYorN/${request.id}`}>Lets Get started</Link>
-                </li>
-              )
-              //}
-            })}
+            <ul>
+              {friendAcceptedRequests.map(request => {
+                // if (request.friendAcceptedRequests==false)
+                return (
+                  <li>
+                    {request.friend.name} has accepted your dine request for{' '}
+                    {request.description}! <br></br>
+                    <Link
+                      to={`/FoodYorN/${request.id}`}
+                      className="AcceptedLink"
+                    >
+                      Lets Get started
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
           </section>
 
           <section className="IncomingRequest">
@@ -182,10 +187,6 @@ const UserHomePage = () => {
                     <li>
                       {request.requestor.name} has requested to dine with you!
                       <br></br>
-                      {/* <button <button onClick = {() =>
-{AcceptRequest}
-{sendAcceptedRequestToApi}
-                      }/</li>>Accept</button> */}
                       <button onClick={AcceptRequest}>Accept</button>
                       <button onClick={DenieRequest}>deny</button>{' '}
                     </li>
@@ -205,24 +206,25 @@ const UserHomePage = () => {
         </section>
         <section className="Agreed">
           <h1>You have agreed to these restaurants</h1>
-          {agreements.map(agreement => {
-            if (agreement.friend.id == agreement.userId) {
+          <ul>
+            {friendAcceptedRequests.map(request => {
+              // if (request.friendAcceptedRequests==false)
+              console.log({ request })
               return (
                 <li>
-                  you have agreed with{agreement.friend.name} to dine at these
-                  restaurants: <li>{agreement.restaurant.name}</li>
+                  you and {request.friend.name} have agreed to these restaurants
+                  for {request.description}:
+                  <ul>
+                    {request.agreements
+                      .filter(f => f.friendApproved && f.requestorApproved)
+                      .map(agreement => {
+                        return <li>{agreement.restaurant.name}</li>
+                      })}
+                  </ul>
                 </li>
               )
-            }
-            if (agreement.requestor.id == agreement.userId) {
-              return (
-                <li>
-                  you have agreed with{agreement.requestor.name} to dine at
-                  these restaurants: <li>{agreement.restaurant.name}</li>
-                </li>
-              )
-            }
-          })}
+            })}
+          </ul>
         </section>
         <section className="PendingAndDenied">
           <section className="PendingRequest">

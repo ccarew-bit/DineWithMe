@@ -14,7 +14,7 @@ namespace DineWithMe.Models
 
     public int RequestId { get; set; }
 
-    public Request Request { get; set; }
+    // public Request Request { get; set; }
 
     public bool FriendApproved { get; set; } = false;
 

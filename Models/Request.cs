@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace DineWithMe.Models
 {
@@ -20,6 +21,8 @@ namespace DineWithMe.Models
     public bool IsRequestAccepted { get; set; } = false;
 
     public bool IsRequestDenied { get; set; } = false;
+
+    public List<Agreement> Agreements { get; set; }
 
   }
 }

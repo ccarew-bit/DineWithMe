@@ -134,8 +134,9 @@ namespace DineWithMe.Controllers
 
       // get teh current user
       var userId = int.Parse(User.Claims.FirstOrDefault(f => f.Type == "id").Value);
-      var agreements = _context.Agreements.Include(i => i.Restaurant).Include(i => i.Requestor).Include(i => i.Friend).Where(w => w.FriendApproved == true && w.RequestorApproved == true && (w.FriendId == userId || w.RequestorId == userId) && w.IsAgreementMade == true);
+      var agreements = _context.Agreements.Include(i => i.Restaurant).Include(i => i.Requestor).Include(i => i.Friend).Where(w => w.FriendApproved == true && w.RequestorApproved == true);
       return Ok(agreements);
+      // && (w.FriendId == userId || w.RequestorId == userId) && w.IsAgreementMade == true
     }
     //   // Get their requests where they are the friend
     //   var friendRequestIds = _context.Requests.Where(w => w.FriendId == userId && w.IsRequestAccepted).Select(s => s.Id);

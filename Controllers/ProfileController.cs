@@ -58,8 +58,9 @@ namespace DineWithMe.Controllers
     {
       var userId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
 
-      var acceptedRequests = await _context.Requests.Where(request => request.RequestorId == userId && request.IsRequestAccepted == true).Include(request => request.Friend).ToListAsync();
-
+      var acceptedRequests = await _context.Requests.Where(request => request.RequestorId == userId && request.IsRequestAccepted == true).Include(request => request.Friend).Include(request => request.Agreements).ThenInclude(agreement => agreement.Restaurant).ToListAsync();
+      // .Where(agreement => (agreement.FriendApproved == true) && (agreement => agreement.RequestorApproved== true))
+      // .ThenInclude(agreement => agreement.FriendApproved == true && agreement => agreement.RequestorApproved == true)
       return Ok(acceptedRequests);
     }
 

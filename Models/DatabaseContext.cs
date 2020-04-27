@@ -66,7 +66,57 @@ namespace DineWithMe.Models
             Reviews = "GREAT",
             Hours = "9am-5pm",
             Expenses = "$$"
-          }
+          },
+
+           new Restaurant
+           {
+             Id = 6,
+             Name = "Hawkers Asian Street Fare",
+             Type = "Asian",
+             Reviews = "GREAT",
+             Hours = "9am-5pm",
+             Expenses = "$$"
+           },
+
+           new Restaurant
+           {
+             Id = 7,
+             Name = "Casita Taqueria",
+             Type = "Mexican",
+             Reviews = "GREAT",
+             Hours = "9am-5pm",
+             Expenses = "$"
+           },
+
+           new Restaurant
+           {
+             Id = 8,
+             Name = "Rawk Star Cafe St. Pete",
+             Type = "Vegan",
+             Reviews = "GREAT",
+             Hours = "9am-5pm",
+             Expenses = "$"
+           },
+
+           new Restaurant
+           {
+             Id = 9,
+             Name = "Central Melt",
+             Type = "Deli",
+             Reviews = "GREAT",
+             Hours = "9am-5pm",
+             Expenses = "$"
+           },
+
+           new Restaurant
+           {
+             Id = 10,
+             Name = "Bodega on Central",
+             Type = "Cuban",
+             Reviews = "GREAT",
+             Hours = "9am-5pm",
+             Expenses = "$"
+           }
 
         );
     }

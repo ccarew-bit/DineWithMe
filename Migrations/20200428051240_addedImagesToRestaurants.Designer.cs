@@ -3,15 +3,17 @@ using System;
 using DineWithMe.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DineWithMe.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200428051240_addedImagesToRestaurants")]
+    partial class addedImagesToRestaurants
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,9 +112,6 @@ namespace DineWithMe.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Location")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -132,8 +131,6 @@ namespace DineWithMe.Migrations
                             Id = 1,
                             Expenses = "$$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051715/Ceviche_i5ai5k.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Ceviche tapas St.Pete",
                             Reviews = "GREAT",
                             Type = "Spanish"
@@ -143,8 +140,6 @@ namespace DineWithMe.Migrations
                             Id = 2,
                             Expenses = "$$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051736/RedMesa_qdqyml.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Red Mesa",
                             Reviews = "GREAT",
                             Type = "Mexican"
@@ -154,8 +149,6 @@ namespace DineWithMe.Migrations
                             Id = 3,
                             Expenses = "$$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051732/ParkshoreGrill_hfcqp7.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Parkshore Grill",
                             Reviews = "GREAT",
                             Type = "American"
@@ -165,8 +158,6 @@ namespace DineWithMe.Migrations
                             Id = 4,
                             Expenses = "$$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051720/Harveys4thStreetGrill_shx5pc.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Harvey's 4th Street Grill",
                             Reviews = "GREAT",
                             Type = "Spanish"
@@ -176,8 +167,6 @@ namespace DineWithMe.Migrations
                             Id = 5,
                             Expenses = "$$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051681/BellaBrava_pawxiw.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "BellaBrava",
                             Reviews = "GREAT",
                             Type = "Pizza"
@@ -187,8 +176,6 @@ namespace DineWithMe.Migrations
                             Id = 6,
                             Expenses = "$$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051722/HawkersAsianStreetFare_hebtp3.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Hawkers Asian Street Fare",
                             Reviews = "GREAT",
                             Type = "Asian"
@@ -198,8 +185,6 @@ namespace DineWithMe.Migrations
                             Id = 7,
                             Expenses = "$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051706/CasitaTaqueria_oiw2bj.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Casita Taqueria",
                             Reviews = "GREAT",
                             Type = "Mexican"
@@ -209,8 +194,6 @@ namespace DineWithMe.Migrations
                             Id = 8,
                             Expenses = "$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051735/RawkStarCafeStPete_uyc2bm.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Rawk Star Cafe St. Pete",
                             Reviews = "GREAT",
                             Type = "Vegan"
@@ -220,8 +203,6 @@ namespace DineWithMe.Migrations
                             Id = 9,
                             Expenses = "$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051713/Central_Melt_eubwhw.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Central Melt",
                             Reviews = "GREAT",
                             Type = "Deli"
@@ -231,8 +212,6 @@ namespace DineWithMe.Migrations
                             Id = 10,
                             Expenses = "$",
                             Hours = "9am-5pm",
-                            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051688/BodegaonCentral_udxwnf.jpg",
-                            Location = "St.Petersburg, Fl",
                             Name = "Bodega on Central",
                             Reviews = "GREAT",
                             Type = "Cuban"

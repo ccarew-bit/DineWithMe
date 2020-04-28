@@ -1,8 +1,6 @@
 docker build -t DineWithMe-image .
 
-docker tag DineWithMe-image registry.heroku.com/DineWithMe/web
+docker tag DineWithMe-image registry.heroku.com/corinnedinewithme/web
 
 
-docker push registry.heroku.com/DineWithMe/web
-
-heroku container:release web -a DineWithMe
+docker push registry.heroku.com/corinnedinewithme/web

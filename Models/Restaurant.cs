@@ -14,6 +14,10 @@ namespace DineWithMe.Models
 
     public string Expenses { get; set; }
 
+    public string ImageUrl { get; set; }
+
+    public string Location { get; set; }
+
 
   }
 }

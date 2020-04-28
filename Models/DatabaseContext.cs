@@ -26,7 +26,10 @@ namespace DineWithMe.Models
             Type = "Spanish",
             Reviews = "GREAT",
             Hours = "9am-5pm",
-            Expenses = "$$"
+            Expenses = "$$",
+            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051715/Ceviche_i5ai5k.jpg",
+            Location = "St.Petersburg, Fl"
+
           },
           new Restaurant
           {
@@ -35,7 +38,9 @@ namespace DineWithMe.Models
             Type = "Mexican",
             Reviews = "GREAT",
             Hours = "9am-5pm",
-            Expenses = "$$"
+            Expenses = "$$",
+            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051736/RedMesa_qdqyml.jpg",
+            Location = "St.Petersburg, Fl"
           },
 
           new Restaurant
@@ -45,7 +50,9 @@ namespace DineWithMe.Models
             Type = "American",
             Reviews = "GREAT",
             Hours = "9am-5pm",
-            Expenses = "$$"
+            Expenses = "$$",
+            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051732/ParkshoreGrill_hfcqp7.jpg",
+            Location = "St.Petersburg, Fl"
           },
 
           new Restaurant
@@ -55,7 +62,9 @@ namespace DineWithMe.Models
             Type = "Spanish",
             Reviews = "GREAT",
             Hours = "9am-5pm",
-            Expenses = "$$"
+            Expenses = "$$",
+            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051720/Harveys4thStreetGrill_shx5pc.jpg",
+            Location = "St.Petersburg, Fl"
           },
 
           new Restaurant
@@ -65,7 +74,9 @@ namespace DineWithMe.Models
             Type = "Pizza",
             Reviews = "GREAT",
             Hours = "9am-5pm",
-            Expenses = "$$"
+            Expenses = "$$",
+            ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051681/BellaBrava_pawxiw.jpg",
+            Location = "St.Petersburg, Fl"
           },
 
            new Restaurant
@@ -75,7 +86,9 @@ namespace DineWithMe.Models
              Type = "Asian",
              Reviews = "GREAT",
              Hours = "9am-5pm",
-             Expenses = "$$"
+             Expenses = "$$",
+             ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051722/HawkersAsianStreetFare_hebtp3.jpg",
+             Location = "St.Petersburg, Fl"
            },
 
            new Restaurant
@@ -85,7 +98,9 @@ namespace DineWithMe.Models
              Type = "Mexican",
              Reviews = "GREAT",
              Hours = "9am-5pm",
-             Expenses = "$"
+             Expenses = "$",
+             ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051706/CasitaTaqueria_oiw2bj.jpg",
+             Location = "St.Petersburg, Fl"
            },
 
            new Restaurant
@@ -95,7 +110,9 @@ namespace DineWithMe.Models
              Type = "Vegan",
              Reviews = "GREAT",
              Hours = "9am-5pm",
-             Expenses = "$"
+             Expenses = "$",
+             ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051735/RawkStarCafeStPete_uyc2bm.jpg",
+             Location = "St.Petersburg, Fl"
            },
 
            new Restaurant
@@ -105,7 +122,9 @@ namespace DineWithMe.Models
              Type = "Deli",
              Reviews = "GREAT",
              Hours = "9am-5pm",
-             Expenses = "$"
+             Expenses = "$",
+             ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051713/Central_Melt_eubwhw.jpg",
+             Location = "St.Petersburg, Fl"
            },
 
            new Restaurant
@@ -115,7 +134,9 @@ namespace DineWithMe.Models
              Type = "Cuban",
              Reviews = "GREAT",
              Hours = "9am-5pm",
-             Expenses = "$"
+             Expenses = "$",
+             ImageUrl = "https://res.cloudinary.com/dzffwrzqb/image/upload/v1588051688/BodegaonCentral_udxwnf.jpg",
+             Location = "St.Petersburg, Fl"
            }
 
         );

@@ -74,9 +74,9 @@ const FoodYorN = props => {
         <section className="FoodYorN">
           <h1>Please choose yes or no</h1>
           <h2>{restaurant.name}</h2>
-          <img src={PlaceHolder} />
+          <img src={restaurant.imageUrl} />
           <h3>
-            {restaurant.expenses} ~ {restaurant.type}
+            {restaurant.expenses} ~ {restaurant.type} ~ {restaurant.location}
           </h3>
           <ul className="YorNUl">
             <li>

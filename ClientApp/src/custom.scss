@@ -244,8 +244,8 @@ div {
   }
 
   img {
-    height: auto;
-    width: 50vh;
+    height: 50vh;
+    width: auto;
     border-style: solid;
     border-radius: 0.3rem;
     box-shadow: 5px 5px #91000052;
@@ -727,10 +727,15 @@ div {
       color: #5b202a;
       text-decoration: none;
     }
+    ul {
+      padding: 0;
+      margin: 1rem;
+    }
     li {
       list-style: none;
       margin-bottom: 0.5rem;
       font-family: 'Ledger', serif;
+      margin-left: 0;
     }
   }
 

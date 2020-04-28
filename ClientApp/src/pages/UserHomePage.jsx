@@ -13,6 +13,16 @@ const UserHomePage = () => {
   const [agreements, setAgreement] = useState([])
   const [requestIdToRedirectTo, setRequestIdToRedirectTo] = useState(0)
   const [deleteRequest, setDeleteRequest] = useState([])
+
+  useEffect(() => {
+    loadProfile()
+    incomingRequest()
+    outgoingRequest()
+    friendHasAcceptedRequest()
+    friendHasDeniedRequest()
+    AgreedOnRequests()
+  }, [])
+
   const loadProfile = async () => {
     const resp = await axios.get('/api/profile', {
       headers: {
@@ -22,9 +32,6 @@ const UserHomePage = () => {
     console.log(resp.data)
     setProfile(resp.data)
   }
-  useEffect(() => {
-    loadProfile()
-  }, [])
 
   ///////////Incoming
   const incomingRequest = async () => {
@@ -35,10 +42,8 @@ const UserHomePage = () => {
     })
     console.log(resp.data)
     setIncomingRequests(resp.data)
+    outgoingRequest()
   }
-  useEffect(() => {
-    incomingRequest()
-  }, [])
 
   //////outgoing
   const outgoingRequest = async () => {
@@ -50,9 +55,7 @@ const UserHomePage = () => {
     console.log(resp.data)
     setOutgoingRequests(resp.data)
   }
-  useEffect(() => {
-    outgoingRequest()
-  }, [])
+
   console.log(incomingRequests)
 
   //////////////Accepted request
@@ -65,9 +68,6 @@ const UserHomePage = () => {
     console.log(resp.data)
     setFriendAcceptedRequests(resp.data)
   }
-  useEffect(() => {
-    friendHasAcceptedRequest()
-  }, [])
 
   /////////////// denied request
   const friendHasDeniedRequest = async () => {
@@ -79,9 +79,6 @@ const UserHomePage = () => {
     console.log(resp.data)
     setFriendDeniedRequest(resp.data)
   }
-  useEffect(() => {
-    friendHasDeniedRequest()
-  }, [])
 
   ///////////////////////////////////////////////////// agreement reached
   const AgreedOnRequests = async () => {
@@ -93,9 +90,7 @@ const UserHomePage = () => {
     console.log(resp.data)
     setAgreement(resp.data)
   }
-  useEffect(() => {
-    AgreedOnRequests()
-  }, [])
+
   console.log(agreements)
   //////////////////////////////////delete request
   const DeleteRequest = async id => {
@@ -106,10 +101,8 @@ const UserHomePage = () => {
     })
     console.log(resp.data)
     setDeleteRequest(resp.data)
+    outgoingRequest()
   }
-  // useEffect(() => {
-  //   DeleteRequest()
-  // }, [])
 
   ////////////////accept request
 
@@ -164,17 +157,12 @@ const UserHomePage = () => {
         },
       }
     )
-    //   if (resp.status == 200) {
-    //     setRequestIdToRedirectTo(id)
-    //   }
-    // }
-
-    // if (requestIdToRedirectTo) {
-    //   return <Redirect to={`/UserHome`} />
+    incomingRequest()
   }
+
   //////////////////////////
   return (
-    <body className="UserHomeBackground">
+    <div className="UserHomeBackground">
       <section className="UserHomePage">
         <header>Welcome {profile.name} !</header>
         <Link to="/SendRequest" className="LinktoRequestPage">
@@ -185,13 +173,16 @@ const UserHomePage = () => {
             <h1>Accepted</h1>
             <ul>
               {friendAcceptedRequests
+                .filter(request => request.agreements.length === 0)
                 // .filter(f => f.friendApproved == false)
                 .map(request => {
                   // if (request.requestorapproved == false)
                   return (
-                    <li>
+                    <li key={request.id}>
                       {request.friend.name} has accepted your dine request for{' '}
-                      {request.description} at {request.time}! <br></br>
+                      {request.description} at {request.time}!
+                      {/* .moment().format('MMMM Do YYYY, h:mm:ss a') */}{' '}
+                      <br></br>
                       <Link
                         to={`/FoodYorN/${request.id}`}
                         className="AcceptedLink"
@@ -209,7 +200,7 @@ const UserHomePage = () => {
             <ul>
               {incomingRequests.map(request => {
                 return (
-                  <section>
+                  <section key={request.id}>
                     <li>
                       {request.requestor.name} has requested to dine with you at
                       {request.time}
@@ -238,7 +229,7 @@ const UserHomePage = () => {
               // if (request.friendAcceptedRequests==false)
               console.log({ request })
               return (
-                <ul>
+                <ul key={request.id}>
                   <li>
                     you and {request.friend.name} have agreed to these
                     restaurants for {request.description} at {request.time}:
@@ -246,7 +237,9 @@ const UserHomePage = () => {
                   {request.agreements
                     .filter(f => f.friendApproved && f.requestorApproved)
                     .map(agreement => {
-                      return <li>{agreement.restaurant.name}</li>
+                      return (
+                        <li key={agreement.id}>{agreement.restaurant.name}</li>
+                      )
                     })}
                 </ul>
               )
@@ -258,12 +251,12 @@ const UserHomePage = () => {
             <h2>Pending request</h2>
             {outgoingRequests.map(request => {
               return (
-                <ul>
+                <ul key={request.id}>
                   <li>
                     you have asked {request.friend.name} to dine with you at{' '}
                     {request.time}!
                   </li>
-                  <button onClick={DeleteRequest(request.id)}>
+                  <button onClick={() => DeleteRequest(request.id)}>
                     Delete Request
                   </button>
                 </ul>
@@ -276,17 +269,11 @@ const UserHomePage = () => {
             {friendDeniedRequest.map(request => {
               //if (request.IsRequestAccepted == true) {
               return (
-                <ul>
+                <ul key={request.id}>
                   <li>
                     {request.friend.name} has Denied your dine request for{' '}
                     {request.description} at {request.time}!
                   </li>
-                  {/* {deleteRequest.map(request => {
-                      return ( */}
-                  {/* <button onClick={DeleteRequest(request.id)}>
-                    Delete Request
-                  </button> */}
-                  {/* // ) // })} */}
                 </ul>
               )
             })}
@@ -294,7 +281,7 @@ const UserHomePage = () => {
         </section>
         <Link to="/">SignOut</Link>
       </section>
-    </body>
+    </div>
   )
 }
 

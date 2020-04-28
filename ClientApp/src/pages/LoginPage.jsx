@@ -32,14 +32,12 @@ export function LoginPage() {
             placeholder="Phone Number"
             type="text"
             value={LoginPhoneNumber}
-            on
             onChange={e => setLoginPhoneNumber(e.target.value)}
           ></input>
           <input
             placeholder="Password"
             type="text"
             value={LoginPassword}
-            on
             onChange={e => setLoginPassword(e.target.value)}
           ></input>
         </section>

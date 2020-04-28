@@ -133,6 +133,7 @@ namespace DineWithMe.Controllers
       var request = await _context.Requests.FindAsync(id);
       if (request == null)
       {
+        Console.WriteLine("**************************That Id is not Found");
         return NotFound();
       }
 
@@ -148,6 +149,7 @@ namespace DineWithMe.Controllers
       {
         if (!RequestExists(id))
         {
+          Console.WriteLine("**************************That Id is not Found DbUpdateConcurrencyException");
           return NotFound();
         }
         else

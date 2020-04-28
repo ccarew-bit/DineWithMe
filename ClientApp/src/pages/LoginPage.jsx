@@ -36,7 +36,7 @@ export function LoginPage() {
           ></input>
           <input
             placeholder="Password"
-            type="text"
+            type="password"
             value={LoginPassword}
             onChange={e => setLoginPassword(e.target.value)}
           ></input>

@@ -6,8 +6,6 @@ const UserHomePage = () => {
   const [profile, setProfile] = useState({})
   const [incomingRequests, setIncomingRequests] = useState([])
   const [outgoingRequests, setOutgoingRequests] = useState([])
-  const [isAcceptedRequest, setIsAcceptedRequest] = useState([])
-  const [deniedRequest, setDeniedRequest] = useState([])
   const [friendAcceptedRequests, setFriendAcceptedRequests] = useState([])
   const [friendDeniedRequest, setFriendDeniedRequest] = useState([])
   const [agreements, setAgreement] = useState([])
@@ -101,27 +99,17 @@ const UserHomePage = () => {
     })
     console.log(resp.data)
     setDeleteRequest(resp.data)
-    outgoingRequest()
+    friendHasDeniedRequest()
+    // outgoingRequest()
+    // incomingRequest()
   }
 
   ////////////////accept request
 
-  const AcceptRequest = e => {
-    const key = e.target.name
-    const value = e.target.value
-    setIsAcceptedRequest(prevRequest => {
-      prevRequest[key] = value
-      return prevRequest
-    })
-  }
-
   const sendAcceptedRequestToApi = async id => {
     const resp = await axios.post(
       `/api/Request/${id}/Accepted`,
-      {
-        ...isAcceptedRequest,
-        requestor: { name: isAcceptedRequest.requestor },
-      },
+      {},
       {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -136,21 +124,11 @@ const UserHomePage = () => {
   if (requestIdToRedirectTo) {
     return <Redirect to={`/FoodYorN/${requestIdToRedirectTo}`} />
   }
-  /////////////////// send deny
-  const DenieRequest = e => {
-    const key = e.target.name
-    const value = e.target.value
-    setDeniedRequest(prevRequest => {
-      prevRequest[key] = value
-      return { ...prevRequest }
-    })
-  }
 
   const sendDeniedRequestToApi = async id => {
-    console.log('adding', deniedRequest)
     const resp = await axios.post(
       `/api/Request/${id}/Denied`,
-      { ...deniedRequest, requestor: { name: deniedRequest.requestor } },
+      {},
       {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -171,9 +149,15 @@ const UserHomePage = () => {
         <section className="PandIRequest">
           <section className="AcceptedRequest">
             <h1>Accepted</h1>
+
             <ul>
               {friendAcceptedRequests
-                .filter(request => request.agreements.length === 0)
+                .filter(
+                  request =>
+                    request.agreements.filter(
+                      agreement => agreement.requestorApproved == true
+                    ).length === 0
+                )
                 // .filter(f => f.friendApproved == false)
                 .map(request => {
                   // if (request.requestorapproved == false)
@@ -202,19 +186,18 @@ const UserHomePage = () => {
                 return (
                   <section key={request.id}>
                     <li>
-                      {request.requestor.name} has requested to dine with you at
+                      {request.requestor.name} has requested to dine with you
+                      for {request.description} at
                       {request.time}
                       <br></br>
-                      <button onClick={AcceptRequest}>Accept</button>
-                      <button onClick={DenieRequest}>deny</button>{' '}
                     </li>
                     <button
                       onClick={() => sendAcceptedRequestToApi(request.id)}
                     >
-                      Accept Request
+                      Accept
                     </button>
                     <button onClick={() => sendDeniedRequestToApi(request.id)}>
-                      Deny Request
+                      Deny
                     </button>
                   </section>
                 )
@@ -230,7 +213,7 @@ const UserHomePage = () => {
               console.log({ request })
               return (
                 <ul key={request.id}>
-                  <li>
+                  <li className="AgreedRequestList">
                     you and {request.friend.name} have agreed to these
                     restaurants for {request.description} at {request.time}:
                   </li>
@@ -241,10 +224,12 @@ const UserHomePage = () => {
                         <li key={agreement.id}>{agreement.restaurant.name}</li>
                       )
                     })}
+                  <br></br>
                 </ul>
               )
             })}
           </ul>
+          <br></br>
         </section>
         <section className="PendingAndDenied">
           <section className="PendingRequest">
@@ -253,8 +238,8 @@ const UserHomePage = () => {
               return (
                 <ul key={request.id}>
                   <li>
-                    you have asked {request.friend.name} to dine with you at{' '}
-                    {request.time}!
+                    You have asked {request.friend.name} to dine with you for{' '}
+                    {request.description} at {request.time}!
                   </li>
                   <button onClick={() => DeleteRequest(request.id)}>
                     Delete Request
@@ -273,6 +258,9 @@ const UserHomePage = () => {
                   <li>
                     {request.friend.name} has Denied your dine request for{' '}
                     {request.description} at {request.time}!
+                    <button onClick={() => DeleteRequest(request.id)}>
+                      Delete Request
+                    </button>
                   </li>
                 </ul>
               )
